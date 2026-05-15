@@ -1,0 +1,22 @@
+name = "democrm"
+main = ".open-next/worker.js"
+compatibility_date = "2026-05-14"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+account_id = "521c322a89a17bb69f91f1e65177606e"
+
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+
+[[d1_databases]]
+binding = "DB"
+database_name = "democrm-db"
+database_id = "4734b1aa-1090-45a8-b63d-1ae12d7f3dc8"
+migrations_dir = "migrations"
+
+[observability]
+enabled = true
+
+# Custom domain — uncomment + adjust after the route is added in Cloudflare dashboard,
+# or via `wrangler deploy --route democrm.packetfusion.com/*`.
+# [[routes]]
+# pattern = "democrm.packetfusion.com"
+# custom_domain = true
