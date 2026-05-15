@@ -156,6 +156,23 @@ export async function countCallsInLast24h(): Promise<number> {
   return row?.n ?? 0;
 }
 
+export async function appendNoteToActivity(
+  activityId: string,
+  note: string,
+): Promise<CallActivity | null> {
+  const existing = await db()
+    .prepare("SELECT * FROM call_activity WHERE id = ? LIMIT 1")
+    .bind(activityId)
+    .first<CallActivityRow>();
+  if (!existing) return null;
+  const merged = existing.notes ? `${existing.notes}\n${note}` : note;
+  await db()
+    .prepare("UPDATE call_activity SET notes = ? WHERE id = ?")
+    .bind(merged, activityId)
+    .run();
+  return rowToActivity({ ...existing, notes: merged });
+}
+
 export async function listRecentActivity(limit = 25): Promise<CallActivity[]> {
   const rs = await db()
     .prepare(`SELECT * FROM call_activity ORDER BY started_at DESC LIMIT ?`)

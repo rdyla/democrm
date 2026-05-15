@@ -66,6 +66,20 @@ export async function getContactById(id: string): Promise<Contact | null> {
   return row ? rowToContact(row) : null;
 }
 
+export async function searchContacts(query: string, limit = 20): Promise<Contact[]> {
+  const q = `%${query}%`;
+  const rs = await db()
+    .prepare(
+      `SELECT * FROM contacts
+       WHERE first_name LIKE ? OR last_name LIKE ? OR company LIKE ? OR email LIKE ? OR title LIKE ?
+       ORDER BY last_name, first_name
+       LIMIT ?`,
+    )
+    .bind(q, q, q, q, q, limit)
+    .all<ContactRow>();
+  return (rs.results ?? []).map(rowToContact);
+}
+
 export async function findContactByPhone(phone: string): Promise<Contact | null> {
   const normalized = normalizePhone(phone);
   if (!normalized) return null;

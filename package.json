@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "d1:migrate:local": "wrangler d1 migrations apply democrm-db --local --persist-to %TEMP%/democrm-wrangler-state",
+    "d1:migrate:local": "wrangler d1 migrations apply democrm-db --local --persist-to $TMPDIR/democrm-wrangler-state",
     "d1:migrate:remote": "wrangler d1 migrations apply democrm-db --remote",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
