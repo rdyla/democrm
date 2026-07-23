@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
-import { SmartEmbedDock } from "@/components/SmartEmbedDock";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,11 +30,19 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen">
-        <div className="grid h-screen grid-cols-[240px_1fr_400px]">
+        <div className="grid h-screen grid-cols-[240px_1fr]">
           <Sidebar />
           <main className="overflow-y-auto bg-[var(--background)]">{children}</main>
-          <SmartEmbedDock />
         </div>
+        {/* Zoom Virtual Agent chat widget (web SDK chat client) */}
+        <Script
+          id="zoom-virtual-agent"
+          src="https://us01ccistatic.zoom.us/us01cci/web-sdk/chat-client.js"
+          type="module"
+          strategy="lazyOnload"
+          data-apikey="q5EuEAf4R0uF6QXOjpLH3A"
+          data-env="us01"
+        />
       </body>
     </html>
   );
